@@ -1,0 +1,5 @@
+MYMETA.*
+Makefile
+Plack-App-DirectoryIndex-*.tar.gz
+blib/
+pm_to_blib
