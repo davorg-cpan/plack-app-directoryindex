@@ -7,6 +7,8 @@ use warnings;
 
 use Plack::Util::Accessor 'dir_index';
 
+our $VERSION = '0.0.1';
+
 sub serve_path {
   my $self = shift;
   my ($env, $dir) = @_;
@@ -90,7 +92,31 @@ This code is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
  
 =head1 SEE ALSO
+
+=over 4
  
-L<Plack::App::File>, L<Plack::App::Directory>
- 
+=item L<Plack::App::File>
+
+A Plack application for serving static files from a directory. This
+app only returns files. If you request a directory, you will get a
+404 error.
+
+=item L<Plack::App::Directory>
+
+Another Plack application for serving static files from a directory.
+This app will serve a directory listing if you request one, but it
+doesn't support default directory index files like C<index.html>.
+
+=item L<Plack::Middleware::DirIndex>
+
+This is Plack middleware that it intended to add support for a
+default directory index file to an existing Plack application.
+Unfortunately, it is an all-or-nothing solution. If you use this
+middleware, then whenever you request a directory, it will add
+the directory index filename to the end of the request path. If
+your directory doesn't contain a file with the correct name
+(ususally C<index.html>), then it will return a 404 error.
+
+=back
+
 =cut

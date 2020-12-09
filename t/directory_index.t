@@ -67,9 +67,9 @@ $handler = Plack::App::DirectoryIndex->new({
     open my $fh, ">", "t/share/random.html" or die $!;
     print $fh "<html>random\n</html>";
     close $fh;
-    open my $fh, ">", "t/share/index.html" or die $!;
-    print $fh "<html>\n</html>";
-    close $fh;
+    open my $fh2, ">", "t/share/index.html" or die $!;
+    print $fh2 "<html>\n</html>";
+    close $fh2;
   
     my $res = $cb->(GET "/");
     is $res->code, 200, "$desc - response code is 200";
