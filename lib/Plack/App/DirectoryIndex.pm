@@ -8,7 +8,7 @@ use warnings;
 use Plack::Util::Accessor qw[dir_index pretty];
 use URI::Escape;
 
-our $VERSION = '0.0.3';
+our $VERSION = '0.0.4';
 
 sub standard_css {
   return <<CSS;
