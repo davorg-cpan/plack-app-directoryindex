@@ -10,6 +10,12 @@ use URI::Escape;
 
 our $VERSION = '0.0.4';
 
+sub css {
+  my $self = shift;
+
+  return $self->pretty ? $self->pretty_css : $self->standard_css;
+}
+
 sub standard_css {
   return <<CSS;
 table {
@@ -195,9 +201,7 @@ sub serve_path {
     my $f = $_;
     sprintf $self->file_html, map Plack::Util::encode_html($_), @$f;
   } @files;
-  my $page  = sprintf $self->dir_html, $path,
-                      ($self->pretty ? $self->pretty_css : $self->standard_css),
-                      $path, $files;
+  my $page  = sprintf $self->dir_html, $path, $self->css, $path, $files;
  
   return [ 200, ['Content-Type' => 'text/html; charset=utf-8'], [ $page ] ];
 }
