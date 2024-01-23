@@ -18,11 +18,11 @@ WriteMakefile(
     resources => {
       repository => {
       type => 'git',
-      url => 'git://github.com/davorg/plack-app-directoryindex.git',
-      web => 'https://github.com/davorg/plack-app-directoryindex',
+      url => 'git://github.com/davorg-cpan/plack-app-directoryindex.git',
+      web => 'https://github.com/davorg-cpan/plack-app-directoryindex',
     },
       bugtracker => {
-        "web" => "https://github.com/davorg/plack-app-directoryindex/issues"
+        "web" => "https://github.com/davorg-cpan/plack-app-directoryindex/issues"
       }
     },
   },
