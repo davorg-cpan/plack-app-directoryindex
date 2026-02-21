@@ -7,23 +7,9 @@ use warnings;
 
 use Plack::Util::Accessor qw[dir_index pretty];
 use URI::Escape;
-use WebServer::DirIndex::CSS;
+use WebServer::DirIndex::CSS qw[css];
 
 our $VERSION = '0.0.5';
-
-sub css {
-  my $self = shift;
-
-  return $self->pretty ? $self->pretty_css : $self->standard_css;
-}
-
-sub standard_css {
-  return WebServer::DirIndex::CSS::standard_css();
-}
-
-sub pretty_css {
-  return WebServer::DirIndex::CSS::pretty_css();
-}
 
 sub file_html {
   return <<FILE;
@@ -123,7 +109,7 @@ sub serve_path {
     my $f = $_;
     sprintf $self->file_html, map Plack::Util::encode_html($_), @$f;
   } @files;
-  my $page  = sprintf $self->dir_html, $path, $self->css, $path, $files;
+  my $page  = sprintf $self->dir_html, $path, css($self->pretty), $path, $files;
  
   return [ 200, ['Content-Type' => 'text/html; charset=utf-8'], [ $page ] ];
 }

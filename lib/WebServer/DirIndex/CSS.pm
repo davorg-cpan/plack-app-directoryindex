@@ -5,9 +5,15 @@ use warnings;
 
 use Exporter qw[import];
 
-our @EXPORT_OK = qw[standard_css pretty_css];
+our @EXPORT_OK = qw[css];
 
 our $VERSION = '0.0.1';
+
+sub css {
+  my ($pretty) = @_;
+
+  return $pretty ? pretty_css() : standard_css();
+}
 
 sub standard_css {
   return <<CSS;
@@ -106,28 +112,25 @@ WebServer::DirIndex::CSS - CSS stylesheets for directory index pages
 
 =head1 SYNOPSIS
 
-  use WebServer::DirIndex::CSS qw[standard_css pretty_css];
+  use WebServer::DirIndex::CSS qw[css];
 
-  my $css = standard_css();
-  my $css = pretty_css();
+  my $css = css();           # standard CSS
+  my $css = css($pretty);    # pretty CSS if $pretty is true
 
 =head1 DESCRIPTION
 
-This module provides two CSS stylesheets that can be used to style
+This module provides CSS stylesheets that can be used to style
 directory index pages served by web servers.
 
 =head1 FUNCTIONS
 
 =over 4
 
-=item standard_css
+=item css($pretty)
 
-Returns a minimal CSS stylesheet suitable for directory listing pages.
-
-=item pretty_css
-
-Returns an enhanced CSS stylesheet for a more attractive directory listing
-appearance.
+Returns a CSS stylesheet suitable for directory listing pages. If C<$pretty>
+is true, returns an enhanced stylesheet for a more attractive appearance;
+otherwise returns a minimal standard stylesheet.
 
 =back
 
