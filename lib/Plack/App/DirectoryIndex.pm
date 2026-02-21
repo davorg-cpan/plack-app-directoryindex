@@ -8,7 +8,7 @@ use warnings;
 use Plack::Util::Accessor qw[dir_index pretty];
 use WebServer::DirIndex;
 
-our $VERSION = '0.0.5';
+our $VERSION = '0.1.0';
 
 # NOTE: Copied from Plack::App::Directory as that module makes it
 # impossible to override the HTML.
