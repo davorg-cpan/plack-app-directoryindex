@@ -236,7 +236,13 @@ Plack::App::DirectoryIndex - Serve static files from document root with an index
     root      => '/path/to/htdocs',
     dir_index => '',
   })->to_app;
-  
+
+  # Use the prettier CSS for directory listings
+  my $app = Plack::App::DirectoryIndex->new({
+    root   => '/path/to/htdocs',
+    pretty => 1,
+  })->to_app;
+
 
 =head1 DESCRIPTION
  
@@ -259,6 +265,12 @@ The name of the directory index file that you want to use. This will
 default to using C<index.html>. You can turn it off by setting this
 value to an empty string (but if you don't want a default index file,
 then you should probably use L<Plack::App::Directory> instead).
+
+=item pretty
+
+If set to a true value, the directory listing page will be rendered
+using an enhanced CSS stylesheet for a more attractive appearance.
+Defaults to false (i.e. the standard minimal CSS is used).
 
 =back
  
