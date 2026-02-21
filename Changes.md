@@ -11,8 +11,7 @@ and this project adheres to
 
 ### Changed
 
-- Remove local copies of `WebServer::DirIndex` and submodules; use the CPAN
-  distribution instead
+- Move web page production into a separate WebServer::DirIndex CPAN distribution
 
 ## [0.0.5] - 2026-02-21
 
