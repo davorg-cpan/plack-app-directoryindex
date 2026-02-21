@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- CSS functions extracted into new `WebServer::DirIndex::CSS` module with a
+  single `css($pretty)` function that returns the appropriate stylesheet
+
 ## [0.0.5] - 2026-02-21
 
 ### Added

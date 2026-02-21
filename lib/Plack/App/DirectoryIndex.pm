@@ -7,101 +7,9 @@ use warnings;
 
 use Plack::Util::Accessor qw[dir_index pretty];
 use URI::Escape;
+use WebServer::DirIndex::CSS qw[css];
 
 our $VERSION = '0.0.5';
-
-sub css {
-  my $self = shift;
-
-  return $self->pretty ? $self->pretty_css : $self->standard_css;
-}
-
-sub standard_css {
-  return <<CSS;
-table {
-  width: 100%;
-}
-.name {
-  text-align:l eft;
-}
-.size, .mtime {
-  text-align: right;
-}
-.type {
-  width: 11em;
-}
-.mtime {
-  width: 15em;
-}
-CSS
-}
-
-sub pretty_css {
-  return <<CSS;
-body {
-  color: #000;
-  background-color: #fff; 
-  font-family: Calibri, Candara, Segoe, Segoe UI, Helvetica Neue, Helvetica, Optima, Arial, sans-serif;
-  font-size: normal 1em sans-serif;
-  text-align: center;
-  padding: 0;
-  margin: 0;
-}
-
-h2 {
- font-size: 2.000em;
- font-weight: 700;
-}
-
-table {
-  width: 90%;
-  margin: 3em;
-  border: 1px solid #aaa;
-  border-collapse: collapse;
-  background-color: #eee;
-}
-
-thead {
-  background-color: #bbb;
-  font-weight: 700;
-  font-size: 1.300em;
-}
-
-td, th {
-  padding: 1em;
-  text-align: left;
-  border-bottom: 1px solid #999999;
-  color: #000;
-}
-
-tr:nth-child(even) {
-  background: #ccc;
-}
-
-.size {
-  text-align: right;
-  padding-right: 1.700em;
-}
-
-a:link {
-  font-size: 1.200em;
-  font-weight: 500;
-  color: #000;
-  text-decoration: none;
-}
-
-a:link:hover {
-  text-decoration: underline;
-}
-
-a:visited {
-  font-size: 1.200em;
-  font-weight: 500;
-  color: #301934;
-  text-decoration: none;
-}
-CSS
-}
 
 sub file_html {
   return <<FILE;
@@ -201,7 +109,7 @@ sub serve_path {
     my $f = $_;
     sprintf $self->file_html, map Plack::Util::encode_html($_), @$f;
   } @files;
-  my $page  = sprintf $self->dir_html, $path, $self->css, $path, $files;
+  my $page  = sprintf $self->dir_html, $path, css($self->pretty), $path, $files;
  
   return [ 200, ['Content-Type' => 'text/html; charset=utf-8'], [ $page ] ];
 }
