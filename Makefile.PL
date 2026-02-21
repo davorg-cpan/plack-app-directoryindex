@@ -5,7 +5,8 @@ WriteMakefile(
   VERSION_FROM      => 'lib/Plack/App/DirectoryIndex.pm',
   MIN_PERL_VERSION  => '5.38.0',
   PREREQ_PM         => {
-    Plack => 0,
+    Plack                => 0,
+    'WebServer::DirIndex' => 0,
   },
   BUILD_REQUIRES    => {
     Test::More    => 0,
