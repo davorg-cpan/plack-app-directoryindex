@@ -7,10 +7,12 @@ and this project adheres to
 
 ## [Unreleased]
 
-### Added
+## [0.1.0] - 2026-02-21
 
-- CSS functions extracted into new `WebServer::DirIndex::CSS` module with a
-  single `css($pretty)` function that returns the appropriate stylesheet
+### Changed
+
+- Remove local copies of `WebServer::DirIndex` and submodules; use the CPAN
+  distribution instead
 
 ## [0.0.5] - 2026-02-21
 
