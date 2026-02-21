@@ -5,7 +5,7 @@ no warnings 'experimental::class';
 class WebServer::DirIndex::HTML v0.0.1 {
 
   use Plack::Util;
-  use WebServer::DirIndex::CSS qw[css];
+  use WebServer::DirIndex::CSS;
 
   field $path_info :param;
   field $files     :param;
@@ -60,7 +60,8 @@ DIR
       my $f = $_;
       sprintf $self->file_html, map { Plack::Util::encode_html($_) } @$f;
     } @$files;
-    return sprintf $self->dir_html, $path, css($pretty), $path, $files_html;
+    my $css = WebServer::DirIndex::CSS->new(pretty => $pretty)->css;
+    return sprintf $self->dir_html, $path, $css, $path, $files_html;
   }
 }
 
