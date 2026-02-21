@@ -1,20 +1,26 @@
 use strict;
 use warnings;
 use Test::More;
-use WebServer::DirIndex::CSS qw[css];
+use WebServer::DirIndex::CSS;
 
-my $std = css();
+my $obj = WebServer::DirIndex::CSS->new;
+ok defined $obj, 'WebServer::DirIndex::CSS->new returns an object';
+
+my $std = $obj->css;
 ok defined $std, 'css() returns a value';
 like $std, qr/table/, 'css() contains table rule';
 like $std, qr/\.name/, 'css() contains .name rule';
 like $std, qr/\.size/, 'css() contains .size rule';
 
-my $pretty = css(1);
-ok defined $pretty, 'css(1) returns a value';
-like $pretty, qr/body/, 'css(1) contains body rule';
-like $pretty, qr/table/, 'css(1) contains table rule';
-like $pretty, qr/a:link/, 'css(1) contains a:link rule';
+my $pretty_obj = WebServer::DirIndex::CSS->new(pretty => 1);
+ok defined $pretty_obj, 'WebServer::DirIndex::CSS->new(pretty => 1) returns an object';
 
-isnt $std, $pretty, 'css() and css(1) return different values';
+my $pretty = $pretty_obj->css;
+ok defined $pretty, 'css(pretty) returns a value';
+like $pretty, qr/body/, 'css(pretty) contains body rule';
+like $pretty, qr/table/, 'css(pretty) contains table rule';
+like $pretty, qr/a:link/, 'css(pretty) contains a:link rule';
+
+isnt $std, $pretty, 'standard and pretty CSS are different';
 
 done_testing;

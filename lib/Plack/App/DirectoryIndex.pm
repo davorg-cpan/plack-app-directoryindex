@@ -6,53 +6,9 @@ use strict;
 use warnings;
 
 use Plack::Util::Accessor qw[dir_index pretty];
-use URI::Escape;
-use WebServer::DirIndex::CSS qw[css];
+use WebServer::DirIndex;
 
 our $VERSION = '0.0.5';
-
-sub file_html {
-  return <<FILE;
-  <tr>
-    <td class='name'><a href='%s'>%s</a></td>
-    <td class='size'>%s</td>
-    <td class='type'>%s</td>
-    <td class='mtime'>%s</td>
-  </tr>
-FILE
-}
-
-sub dir_html {
-  return <<DIR;
-<html>
-  <head>
-    <title>%s</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <style type='text/css'>
-%s
-    </style>
-  </head>
-  <body>
-    <h1>%s</h1>
-    <hr />
-    <table>
-      <thead>
-        <tr>
-          <th class='name'>Name</th>
-          <th class='size'>Size</th>
-          <th class='type'>Type</th>
-          <th class='mtime'>Last Modified</th>
-        </tr>
-      </thead>
-      <tbody>
-%s
-      </tbody>
-    </table>
-    <hr />
-  </body>
-</html>
-DIR
-}
 
 # NOTE: Copied from Plack::App::Directory as that module makes it
 # impossible to override the HTML.
@@ -77,40 +33,9 @@ sub serve_path {
     return $self->return_dir_redirect($env);
   }
  
-  my @files = ([ "../", "Parent Directory", '', '', '' ]);
- 
-  my $dh = DirHandle->new($dir);
-  my @children;
-  while (defined(my $ent = $dh->read)) {
-    next if $ent eq '.' or $ent eq '..';
-    push @children, $ent;
-  }
- 
-  for my $basename (sort { $a cmp $b } @children) {
-    my $file = "$dir/$basename";
-    my $url = $dir_url . $basename;
- 
-    my $is_dir = -d $file;
-    my @stat = stat _;
- 
-    $url = join '/', map {uri_escape($_)} split m{/}, $url;
- 
-    if ($is_dir) {
-      $basename .= "/";
-      $url      .= "/";
-    }
- 
-    my $mime_type = $is_dir ? 'directory' : ( Plack::MIME->mime_type($file) || 'text/plain' );
-    push @files, [ $url, $basename, $stat[7], $mime_type, HTTP::Date::time2str($stat[9]) ];
-  }
- 
-  my $path  = Plack::Util::encode_html("Index of $env->{PATH_INFO}");
-  my $files = join "\n", map {
-    my $f = $_;
-    sprintf $self->file_html, map Plack::Util::encode_html($_), @$f;
-  } @files;
-  my $page  = sprintf $self->dir_html, $path, css($self->pretty), $path, $files;
- 
+  my $di   = WebServer::DirIndex->new(dir => $dir, dir_url => $dir_url);
+  my $page = $di->to_html($env->{PATH_INFO}, $self->pretty);
+
   return [ 200, ['Content-Type' => 'text/html; charset=utf-8'], [ $page ] ];
 }
 

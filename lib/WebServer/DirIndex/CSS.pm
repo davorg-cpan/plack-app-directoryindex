@@ -1,22 +1,17 @@
-package WebServer::DirIndex::CSS;
+use v5.38;
+use feature 'class';
+no warnings 'experimental::class';
 
-use strict;
-use warnings;
+class WebServer::DirIndex::CSS v0.0.1 {
 
-use Exporter qw[import];
+  field $pretty :param = 0;
 
-our @EXPORT_OK = qw[css];
+  method css {
+    return $pretty ? pretty_css() : standard_css();
+  }
 
-our $VERSION = '0.0.1';
-
-sub css {
-  my ($pretty) = @_;
-
-  return $pretty ? pretty_css() : standard_css();
-}
-
-sub standard_css {
-  return <<CSS;
+  sub standard_css {
+    return <<CSS;
 table {
   width: 100%;
 }
@@ -33,10 +28,10 @@ table {
   width: 15em;
 }
 CSS
-}
+  }
 
-sub pretty_css {
-  return <<CSS;
+  sub pretty_css {
+    return <<CSS;
 body {
   color: #000;
   background-color: #fff; 
@@ -100,6 +95,7 @@ a:visited {
   text-decoration: none;
 }
 CSS
+  }
 }
 
 1;
@@ -112,25 +108,45 @@ WebServer::DirIndex::CSS - CSS stylesheets for directory index pages
 
 =head1 SYNOPSIS
 
-  use WebServer::DirIndex::CSS qw[css];
+  use WebServer::DirIndex::CSS;
 
-  my $css = css();           # standard CSS
-  my $css = css($pretty);    # pretty CSS if $pretty is true
+  my $css = WebServer::DirIndex::CSS->new->css;           # standard CSS
+  my $css = WebServer::DirIndex::CSS->new(pretty => 1)->css;  # pretty CSS
 
 =head1 DESCRIPTION
 
 This module provides CSS stylesheets that can be used to style
 directory index pages served by web servers.
 
-=head1 FUNCTIONS
+=head1 CONSTRUCTOR
 
 =over 4
 
-=item css($pretty)
+=item new(%args)
 
-Returns a CSS stylesheet suitable for directory listing pages. If C<$pretty>
-is true, returns an enhanced stylesheet for a more attractive appearance;
-otherwise returns a minimal standard stylesheet.
+Creates a new C<WebServer::DirIndex::CSS> object. Accepts the following
+optional named parameter:
+
+=over 4
+
+=item pretty
+
+If true, the C<css> method will return an enhanced stylesheet for a more
+attractive appearance. Defaults to false.
+
+=back
+
+=back
+
+=head1 METHODS
+
+=over 4
+
+=item css
+
+Returns a CSS stylesheet suitable for directory listing pages. If the
+C<pretty> attribute is true, returns an enhanced stylesheet for a more
+attractive appearance; otherwise returns a minimal standard stylesheet.
 
 =back
 
