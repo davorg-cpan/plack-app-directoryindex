@@ -32,10 +32,17 @@ sub serve_path {
   if ($dir_url !~ m{/$}) {
     return $self->return_dir_redirect($env);
   }
+
+  my %dir_index_args = (
+    dir     => $dir,
+    dir_url => $dir_url,
+  );
+
+  $dir_index_args{pretty} = $self->pretty if defined $self->pretty;
+  $dir_index_args{icons}  = $self->icons  if defined $self->icons;
  
-  my $di   = WebServer::DirIndex->new(dir => $dir, dir_url => $dir_url,
-    defined $self->icons ? (icons => $self->icons) : ());
-  my $page = $di->to_html($env->{PATH_INFO}, $self->pretty);
+  my $di   = WebServer::DirIndex->new(%dir_index_args);
+  my $page = $di->to_html($env->{PATH_INFO});
 
   return [ 200, ['Content-Type' => 'text/html; charset=utf-8'], [ $page ] ];
 }
