@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.4]
 
 ### Fixed
 
@@ -18,6 +18,12 @@ and this project adheres to
 
 - CI now tests across Perl 5.26 through 5.42 (previously only `latest`), so the
   declared `MIN_PERL_VERSION` is actually exercised.
+
+## [0.2.3] - 2026-03-16
+
+### Fixed
+
+- Require a version of WebServer::DirIndex that cpanm understands
 
 ## [0.2.2] - 2026-03-12
 
